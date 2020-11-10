@@ -1,14 +1,9 @@
-import {
-    pointer,
-    updatePointerPosition,
-    setStuck,
-    unsetStuck,
-} from './pointer';
+import Pointer from './models/Pointer';
+
+const pointer = new Pointer();
 
 let clientX = 0;
 let clientY = 0;
-
-document.body.appendChild(pointer);
 
 window.addEventListener('mousemove', (event: MouseEvent) => {
     clientX = event.clientX;
@@ -16,23 +11,39 @@ window.addEventListener('mousemove', (event: MouseEvent) => {
 });
 
 const update = () => {
-    updatePointerPosition(clientX, clientY);
+    pointer.updatePosition(clientX, clientY);
     requestAnimationFrame(update);
 };
 
 requestAnimationFrame(update);
 
 const highlightButtons = Array.from(
-    document.querySelectorAll('[data-pointer="highlight"]')
+    document.querySelectorAll('[data-pointer-type="highlight"]')
 );
-highlightButtons.forEach((btn: HTMLButtonElement) => {
-    btn.addEventListener('mouseenter', (e) => {
-        const element = e.target as HTMLElement;
-        const { width, height, top, left } = element.getBoundingClientRect();
-        setStuck(width, height, top, left);
+const liftButtons = Array.from(
+    document.querySelectorAll('[data-pointer-type="lift"]')
+);
+
+highlightButtons.forEach((highlightButton) => {
+    highlightButton.addEventListener('mouseenter', (e) => {
+        const element = e.currentTarget as HTMLElement;
+
+        pointer.setHighlight(element);
     });
 
-    btn.addEventListener('mouseleave', () => {
-        unsetStuck();
+    highlightButton.addEventListener('mouseleave', (e) => {
+        pointer.resetButton();
+    });
+});
+
+liftButtons.forEach((liftButton) => {
+    liftButton.addEventListener('mouseenter', (e) => {
+        const element = e.currentTarget as HTMLElement;
+
+        pointer.setLift(element);
+    });
+
+    liftButton.addEventListener('mouseleave', (e) => {
+        pointer.resetButton();
     });
 });

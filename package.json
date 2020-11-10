@@ -26,6 +26,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "gsap": "^3.5.1",
     "tailwindcss": "^1.9.5"
   }
 }
