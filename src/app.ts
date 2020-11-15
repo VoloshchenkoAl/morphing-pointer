@@ -17,12 +17,9 @@ const update = () => {
 
 requestAnimationFrame(update);
 
-const highlightButtons = Array.from(
-    document.querySelectorAll('[data-pointer-type="highlight"]')
-);
-const liftButtons = Array.from(
-    document.querySelectorAll('[data-pointer-type="lift"]')
-);
+const highlightButtons = document.querySelectorAll('[data-pointer-type="highlight"]');
+const liftButtons = document.querySelectorAll('[data-pointer-type="lift"]');
+const contentBlocks = document.querySelectorAll('[data-pointer-type="content"]');
 
 highlightButtons.forEach((highlightButton) => {
     highlightButton.addEventListener('mouseenter', (e) => {
@@ -47,3 +44,15 @@ liftButtons.forEach((liftButton) => {
         pointer.resetButton();
     });
 });
+
+contentBlocks.forEach(contentBlock => {
+       contentBlock.addEventListener('mouseenter', (e) => {
+        const element = e.currentTarget as HTMLElement;
+
+        pointer.setContent(element);
+    });
+
+    contentBlock.addEventListener('mouseleave', (e) => {
+        pointer.resetButton();
+    });
+})
