@@ -1,6 +1,6 @@
 {
-  "name": "iPadPointer",
-  "version": "1.0.0",
+  "name": "custom-pointer",
+  "version": "0.0.1",
   "description": "",
   "private": true,
   "scripts": {
