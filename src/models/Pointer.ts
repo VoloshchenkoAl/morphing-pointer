@@ -15,6 +15,10 @@ class Pointer {
         height: number;
     };
     private isLifted: boolean;
+    // content cursor
+    private isContent: boolean;
+    private horizontalGridPosition: number[];
+    private lineHeight: number;
 
     constructor() {
         this.defaultWidth = 20;
@@ -22,9 +26,12 @@ class Pointer {
         this.defaultRadius = 100;
         this.isHighlighted = false;
         this.isLifted = false;
+        this.isContent = false;
         this.cursor = null;
         this.targetElement = null;
         this.specularLayer = null;
+        this.horizontalGridPosition = [];
+        this.lineHeight = 0;
         this.initPointer();
     }
 
@@ -88,7 +95,7 @@ class Pointer {
     }
 
     updatePosition(x: number, y: number): void {
-        if (!this.isHighlighted && !this.isLifted && !!this.cursor) {
+        if (!this.isHighlighted && !this.isLifted && !this.isContent && !!this.cursor) {
             gsap.to(this.cursor, {
                 x: x - this.defaultWidth / 2,
                 y: y - this.defaultWidth / 2,
@@ -157,6 +164,37 @@ class Pointer {
                 y: deltaY,
                 duration: 0.15,
             });
+        }
+
+        if (this.isContent) {
+            const { offsetWidth } = this.cursor;
+            const minValue = Math.min(...this.horizontalGridPosition);
+            const maxValue = Math.max(...this.horizontalGridPosition);
+            const roller = Math.max(...this.horizontalGridPosition.filter(top => y > top));
+
+            if (y >= minValue && y <= maxValue && roller > 0) {
+                const baseX = x - offsetWidth / 2;
+                const deltaY = y > (roller + this.lineHeight - this.lineHeight / 4) ? this.lineHeight / 4 : (y < (roller + this.lineHeight / 4)) ? -this.lineHeight / 4 : 0;
+                const baseY = roller + deltaY;
+
+                gsap.to(this.cursor, {
+                    width: this.lineHeight / 10,
+                    height: this.lineHeight,
+                    borderRadius: 10,
+                    x: baseX,
+                    y: baseY,
+                    duration: 0.15,
+                });
+            } else {
+                gsap.to(this.cursor, {
+                    x: x - this.defaultWidth / 2,
+                    y: y - this.defaultWidth / 2,
+                    duration: 0.05,
+                    width: this.defaultWidth,
+                    height: this.defaultHeight,
+                    borderRadius: this.defaultRadius,
+                });
+            }
         }
     }
 
@@ -239,6 +277,17 @@ class Pointer {
         });
     }
 
+    setContent(element: HTMLElement) {
+        this.isContent = true;
+        const lineHeight = parseInt(window.getComputedStyle(element).lineHeight, 10);
+        const paddingTop = parseFloat(window.getComputedStyle(element).paddingTop);
+        const paddingBottom = parseFloat(window.getComputedStyle(element).paddingBottom);
+        const { top, height } = element.getBoundingClientRect();
+        this.horizontalGridPosition = Array.from({ length: Math.round((height - paddingBottom - paddingTop) / lineHeight) }).map((_, index) => top + paddingTop + lineHeight + index * lineHeight);
+        this.horizontalGridPosition.push(top + paddingTop);
+        this.lineHeight = lineHeight;
+    }
+
     resetButton() {
         if (this.isHighlighted) {
             this.cursor.classList.remove('iPad-pointer--active');
@@ -285,6 +334,18 @@ class Pointer {
                 y: 0,
                 duration: 0.15,
             });
+        }
+
+        if (this.isContent) {
+            gsap.to(this.cursor, {
+                width: this.defaultWidth,
+                height: this.defaultHeight,
+                borderRadius: this.defaultRadius,
+                duration: 0.15,
+            });
+            
+            this.isContent = false;
+            this.horizontalGridPosition = [];
         }
 
         this.targetElement = null;
