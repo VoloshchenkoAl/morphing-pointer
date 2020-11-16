@@ -40,8 +40,10 @@ jobs:
         run: |
           npm ci
           npm run build
-        - name: Deploy
-          uses: peaceiris/actions-gh-pages@v3
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: ./build
+
+      - name: Deploy
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
