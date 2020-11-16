@@ -31,7 +31,7 @@ jobs:
 
       - name: Setup Node
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        uses: actions/setup-node@v2.1.0
+        uses: actions/setup-node@v1
         with:
           node-version: '12.x'
 
