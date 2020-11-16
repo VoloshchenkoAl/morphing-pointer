@@ -28,3 +28,20 @@ jobs:
           tag_name: ${{ steps.changelog.outputs.tag }}
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
+
+      - name: Setup Node
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        uses: actions/setup-node@v2.1.0
+        with:
+          node-version: '12.x'
+
+      - name: Install and Build
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        run: |
+          npm ci
+          npm run build
+        - name: Deploy
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./build
