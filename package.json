@@ -1,10 +1,10 @@
 {
   "name": "custom-pointer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "private": true,
   "scripts": {
-    "build": "webpack --config webpack.prod.config.js",
+    "build": "NODE_ENV=production webpack --config webpack.prod.config.js",
     "start": "webpack-dev-server --open"
   },
   "keywords": [],
