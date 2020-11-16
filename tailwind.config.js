@@ -1,9 +1,10 @@
 module.exports = {
-  future: {},
-  purge: [],
-  theme: {
-    extend: {},
-  },
+  purge: [
+    './public/**/*.html',
+    './src/**/*.scss',
+    './src/**/*.ts',
+  ],
+  theme: {},
   variants: {},
   plugins: [],
-}
+};
