@@ -10,6 +10,7 @@ export class LiftPointer extends BasePointer {
         left: number;
         width: number;
         height: number;
+        zIndex: number;
     };
     private cssLiftClass: string;
     private liftStyle: Element;
@@ -22,14 +23,10 @@ export class LiftPointer extends BasePointer {
     }
 
     onUse(targetElement: Element): void {
-        this.createLiftStyle();
-        this.specularLayer.init();
-        this.cursor.classList.add(this.cssLiftClass);
-
         const { width, height, top, left } = targetElement.getBoundingClientRect();
-        const radius: number = parseFloat(
-            window.getComputedStyle(targetElement).borderRadius
-        );
+        const targetStyles = window.getComputedStyle(targetElement);
+        const radius: number = parseFloat(targetStyles.borderRadius);
+        const zIndex: number = parseFloat(targetStyles.zIndex);
         const bgColor: string = window.getComputedStyle(targetElement).backgroundColor;
 
         this.targetElement = targetElement;
@@ -38,7 +35,12 @@ export class LiftPointer extends BasePointer {
             left,
             width,
             height,
+            zIndex,
         };
+
+        this.createLiftStyle();
+        this.specularLayer.init();
+        this.cursor.classList.add(this.cssLiftClass);
 
         gsap.to(this.cursor, {
             y: top - 0.075 * height,
@@ -83,15 +85,17 @@ export class LiftPointer extends BasePointer {
             duration: 0.15,
         });
 
-        gsap.to(this.specularLayer, {
-            x: newX,
-            y: newY,
-            duration: 0.15,
-            backgroundImage: `radial-gradient(circle at ${Math.abs(
-                left - pointerX
-            )}px ${Math.abs(
-                top - pointerY
-            )}px, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 60%)`,
+        this.specularLayer.update(specularLayer => {
+            gsap.to(specularLayer, {
+                x: newX,
+                y: newY,
+                duration: 0.15,
+                backgroundImage: `radial-gradient(circle at ${Math.abs(
+                    left - pointerX
+                )}px ${Math.abs(
+                    top - pointerY
+                )}px, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 60%)`,
+            });
         });
 
         gsap.to(this.targetElement, {
@@ -104,6 +108,7 @@ export class LiftPointer extends BasePointer {
     onReset() {
         this.removeLiftStyle();
         this.specularLayer.destroy();
+        this.cursor.classList.remove(this.cssLiftClass);
 
         gsap.to(this.cursor, {
             duration: 0.15,
@@ -127,7 +132,8 @@ export class LiftPointer extends BasePointer {
 
         style.innerHTML = `
             .${this.cssLiftClass} {
-                z-index: -1;
+                background-color: rgba(0,0,0,0.05);
+                z-index: ${this.targetElementValues.zIndex - 1};
             }
         `;
 

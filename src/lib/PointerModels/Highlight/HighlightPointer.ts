@@ -10,6 +10,7 @@ export class HighlightPointer extends BasePointer {
         left: number;
         width: number;
         height: number;
+        zIndex: number;
     };
     private targetElement: Element;
     private cssHighlightClass: string;
@@ -53,17 +54,20 @@ export class HighlightPointer extends BasePointer {
     }
 
     onUse(targetElement: Element): void {
-        this.specularLayer.init();
-        this.createHighlighStyle();
-
-        this.cursor.classList.add(this.cssHighlightClass);
-
         const { width, height, top, left } = targetElement.getBoundingClientRect();
         const radius: number = parseFloat(
             window.getComputedStyle(targetElement).borderRadius
         );
-        this.targetElementValues = { top, left, width, height };
+        const zIndex: number = parseFloat(
+            window.getComputedStyle(targetElement).zIndex
+        );
+        this.targetElementValues = { top, left, width, height, zIndex };
         this.targetElement = targetElement;
+
+        this.specularLayer.init();
+        this.createHighlighStyle();
+
+        this.cursor.classList.add(this.cssHighlightClass);
 
         gsap.to(this.cursor, {
             y: top,
@@ -107,7 +111,7 @@ export class HighlightPointer extends BasePointer {
 
         style.innerHTML = `
             .${this.cssHighlightClass} {
-                z-index: -1;
+                z-index: ${this.targetElementValues.zIndex - 1};
                 background-color: rgba(0,0,0,0.07);
             }
         `;
