@@ -5,8 +5,44 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>iPadOS style pointer</title>
     </head>
-    <body class="h-screen">
-        <nav class="grid grid-flow-col auto-cols-min gap-8 py-4 px-8 items-center justify-center">
+    <body class="h-screen flex items-center justify-center bg-gray-100">
+        <aside class="flex w-full mx-4 max-w-screen-sm overflow-hidden rounded-xl shadow-xl bg-white">
+            <div class="w-5/12">
+                <img src="https://images.unsplash.com/photo-1602526433901-9681fbf4c706?auto=format&fit=crop&w=720&q=80" alt="" class="object-cover">
+            </div>
+            <div class="w-7/12 flex items-center">
+                <div class="py-2 pl-8">
+                    <p class="flex space-x-2 mb-2">
+                        <span data-pointer-type="lift" class="relative inline-flex px-4 items-center justify-center h-8 text-sm rounded-md font-medium text-black z-10 bg-indigo-50">Education</span>
+                        <span data-pointer-type="lift" class="relative inline-flex px-4 items-center justify-center h-8 text-sm rounded-md font-medium text-black z-10 bg-indigo-50">Science</span>
+                    </p>
+                    <h1 data-pointer-type="content" class="font-medium text-xl leading-snug mb-2">Myspace Layout The</br> Missing Element</h1>
+                    <p data-pointer-type="content" class="text-xs text-gray-400 mb-4">Sep. 10, 2020</p>
+                    <p data-pointer-type="content" class="w-3/4 text-sm text-black mb-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure ab corrupti quod aperiam est, obcaecati quos repudiandae. Sequi, vero unde.</p>
+                    <div class="flex space-x-2 items-center">
+                        <span class="text-sm text-black">Actions:</span>
+                        <button class="px-4 py-2 z-10 rounded-lg relative" data-pointer-type="highlight">
+                            <svg class="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                                <path
+                                    d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                            </svg>
+                        </button>
+                        <button class="px-4 py-2 z-10 rounded-lg relative" data-pointer-type="highlight">
+                            <svg class="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- <nav class="grid grid-flow-col auto-cols-min gap-8 py-4 px-8 items-center justify-center">
             <button class="py-2 px-4 rounded-lg text-red-400 relative" data-pointer-type="highlight">Link</button>
             <button class="py-2 px-4 rounded-lg text-red-400 relative" data-pointer-type="highlight">
                 <svg class="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -41,6 +77,6 @@
                 </svg>
             </button>
         </nav>
-        <p data-pointer-type="content" class="px-10 py-10 max-w-screen-xl leading-relaxed text-xl mx-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum debitis at beatae quidem, id repellat, consequatur iure, ea dignissimos in hic? Minima expedita obcaecati voluptatem culpa nobis aspernatur nesciunt eius reprehenderit ratione, facere perspiciatis ea eveniet corporis eum voluptatibus autem aperiam officiis tenetur. Mollitia in maiores cum ipsum, natus eius fuga unde perspiciatis odit veritatis consequatur ex eaque obcaecati nisi vero, est veniam. Earum, ullam eligendi accusantium excepturi itaque praesentium totam consequatur pariatur assumenda quas quo vel fugiat, est perspiciatis rerum amet nisi magnam laudantium voluptatem id reprehenderit aliquam. Deserunt, illo, odit voluptates ducimus adipisci aperiam repellat nesciunt quis iste tempore ad consequuntur in quia repellendus nisi id ipsam repudiandae. Facilis commodi inventore quis exercitationem ex blanditiis laudantium nisi, sequi ea maiores. Repellat quod magni nemo dolor nam. Error id vitae, facere molestias eveniet fugiat deleniti fugit vel veritatis omnis eligendi consequatur similique beatae autem at rem cum amet ratione sit delectus. Molestias consequatur dicta laudantium totam nisi ex vero mollitia, tempore consectetur accusantium provident ut quibusdam quam debitis! Est architecto accusamus earum rerum libero repudiandae quibusdam itaque deserunt consequuntur at officiis magnam, magni enim delectus ex iste ipsam, voluptatem vel nostrum, velit voluptas. Labore laborum vero totam ratione dolorem.</p>
+        <p data-pointer-type="content" class="px-10 py-10 max-w-screen-xl leading-relaxed text-xl mx-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum debitis at beatae quidem, id repellat, consequatur iure, ea dignissimos in hic? Minima expedita obcaecati voluptatem culpa nobis aspernatur nesciunt eius reprehenderit ratione, facere perspiciatis ea eveniet corporis eum voluptatibus autem aperiam officiis tenetur. Mollitia in maiores cum ipsum, natus eius fuga unde perspiciatis odit veritatis consequatur ex eaque obcaecati nisi vero, est veniam. Earum, ullam eligendi accusantium excepturi itaque praesentium totam consequatur pariatur assumenda quas quo vel fugiat, est perspiciatis rerum amet nisi magnam laudantium voluptatem id reprehenderit aliquam. Deserunt, illo, odit voluptates ducimus adipisci aperiam repellat nesciunt quis iste tempore ad consequuntur in quia repellendus nisi id ipsam repudiandae. Facilis commodi inventore quis exercitationem ex blanditiis laudantium nisi, sequi ea maiores. Repellat quod magni nemo dolor nam. Error id vitae, facere molestias eveniet fugiat deleniti fugit vel veritatis omnis eligendi consequatur similique beatae autem at rem cum amet ratione sit delectus. Molestias consequatur dicta laudantium totam nisi ex vero mollitia, tempore consectetur accusantium provident ut quibusdam quam debitis! Est architecto accusamus earum rerum libero repudiandae quibusdam itaque deserunt consequuntur at officiis magnam, magni enim delectus ex iste ipsam, voluptatem vel nostrum, velit voluptas. Labore laborum vero totam ratione dolorem.</p> -->
     </body>
 </html>

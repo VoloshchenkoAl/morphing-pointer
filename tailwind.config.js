@@ -4,7 +4,10 @@ module.exports = {
     './src/**/*.scss',
     './src/**/*.ts',
   ],
-  theme: {},
+  darkMode: false,
+  theme: {
+    extend: {},
+  },
   variants: {},
   plugins: [],
 };
