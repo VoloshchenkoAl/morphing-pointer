@@ -1,6 +1,6 @@
-import Pointer from './models/Pointer';
+import { MorphingPointer } from './lib';
 
-const pointer = new Pointer();
+const morphingPointer = new MorphingPointer();
 
 let clientX = 0;
 let clientY = 0;
@@ -11,7 +11,7 @@ window.addEventListener('mousemove', (event: MouseEvent) => {
 });
 
 const update = () => {
-    pointer.updatePosition(clientX, clientY);
+    morphingPointer.updatePosition(clientX, clientY);
     requestAnimationFrame(update);
 };
 
@@ -23,11 +23,11 @@ highlightButtons.forEach((highlightButton) => {
     highlightButton.addEventListener('mouseenter', (e) => {
         const element = e.currentTarget as HTMLElement;
 
-        pointer.setHighlight(element);
+        morphingPointer.setType('highlight', element);
     });
 
     highlightButton.addEventListener('mouseleave', (e) => {
-        pointer.resetButton();
+        morphingPointer.setDefaultType();
     });
 });
 
@@ -36,23 +36,23 @@ liftButtons.forEach((liftButton) => {
     liftButton.addEventListener('mouseenter', (e) => {
         const element = e.currentTarget as HTMLElement;
 
-        pointer.setLift(element);
+        morphingPointer.setType('lift', element);
     });
 
     liftButton.addEventListener('mouseleave', (e) => {
-        pointer.resetButton();
+        morphingPointer.setDefaultType();
     });
 });
 
 const contentBlocks = document.querySelectorAll('[data-pointer-type="content"]');
 contentBlocks.forEach(contentBlock => {
-       contentBlock.addEventListener('mouseenter', (e) => {
+    contentBlock.addEventListener('mouseenter', (e) => {
         const element = e.currentTarget as HTMLElement;
 
-        pointer.setContent(element);
+        morphingPointer.setType('content', element);
     });
 
     contentBlock.addEventListener('mouseleave', (e) => {
-        pointer.resetButton();
+        morphingPointer.setDefaultType();
     });
 })
