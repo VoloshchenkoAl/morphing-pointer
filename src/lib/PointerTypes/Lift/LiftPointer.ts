@@ -15,19 +15,25 @@ export class LiftPointer extends BasePointer {
     private cssLiftClass: string;
     private liftStyle: Element;
 
-    constructor(cursor: HTMLElement) {
-        super(cursor);
+    constructor(pointer: HTMLElement) {
+        super(pointer);
         this.specularLayer = new SpecularLayer();
         this.cssLiftClass = 'pointer-lift-type';
         this.liftStyle = null;
     }
 
-    onUse(targetElement: Element): void {
-        const { width, height, top, left } = targetElement.getBoundingClientRect();
+    onInit(targetElement: Element): void {
+        const {
+            width,
+            height,
+            top,
+            left,
+        } = targetElement.getBoundingClientRect();
         const targetStyles = window.getComputedStyle(targetElement);
         const radius: number = parseFloat(targetStyles.borderRadius);
         const zIndex: number = parseFloat(targetStyles.zIndex);
-        const bgColor: string = window.getComputedStyle(targetElement).backgroundColor;
+        const bgColor: string = window.getComputedStyle(targetElement)
+            .backgroundColor;
 
         this.targetElement = targetElement;
         this.targetElementValues = {
@@ -40,9 +46,9 @@ export class LiftPointer extends BasePointer {
 
         this.createLiftStyle();
         this.specularLayer.init();
-        this.cursor.classList.add(this.cssLiftClass);
+        this.pointer.classList.add(this.cssLiftClass);
 
-        gsap.to(this.cursor, {
+        gsap.to(this.pointer, {
             y: top - 0.075 * height,
             x: left - 0.075 * width,
             width: width * 1.15,
@@ -52,7 +58,7 @@ export class LiftPointer extends BasePointer {
             filter: `drop-shadow(0 -3px 12px ${bgColor}) drop-shadow(0 3px 6px black)`,
         });
 
-        this.specularLayer.update(specularLayer => {
+        this.specularLayer.update((specularLayer) => {
             gsap.to(specularLayer, {
                 y: top - 0.075 * height,
                 x: left - 0.075 * width,
@@ -60,7 +66,7 @@ export class LiftPointer extends BasePointer {
                 height: height * 1.15,
                 borderRadius: radius,
                 duration: 0.15,
-            })
+            });
         });
 
         gsap.to(this.targetElement, {
@@ -74,18 +80,20 @@ export class LiftPointer extends BasePointer {
         const { top, left, width, height } = this.targetElementValues;
         const scaledWidth = width * scale;
         const scaledHeight = height * scale;
-        const deltaX = -(left - 0.075 * width - pointerX + scaledWidth / 2) / 10;
-        const deltaY = -(top - 0.075 * height - pointerY + scaledHeight / 2) / 12;
+        const deltaX =
+            -(left - 0.075 * width - pointerX + scaledWidth / 2) / 10;
+        const deltaY =
+            -(top - 0.075 * height - pointerY + scaledHeight / 2) / 12;
         const newX = left - 0.075 * width + deltaX;
         const newY = top - 0.075 * height + deltaY;
 
-        gsap.to(this.cursor, {
+        gsap.to(this.pointer, {
             x: newX,
             y: newY,
             duration: 0.15,
         });
 
-        this.specularLayer.update(specularLayer => {
+        this.specularLayer.update((specularLayer) => {
             gsap.to(specularLayer, {
                 x: newX,
                 y: newY,
@@ -108,9 +116,9 @@ export class LiftPointer extends BasePointer {
     onReset() {
         this.removeLiftStyle();
         this.specularLayer.destroy();
-        this.cursor.classList.remove(this.cssLiftClass);
+        this.pointer.classList.remove(this.cssLiftClass);
 
-        gsap.to(this.cursor, {
+        gsap.to(this.pointer, {
             duration: 0.15,
             filter: 'none',
         });
@@ -122,7 +130,7 @@ export class LiftPointer extends BasePointer {
             duration: 0.15,
         });
     }
-    
+
     private removeLiftStyle(): void {
         this.liftStyle.parentElement.removeChild(this.liftStyle);
     }
