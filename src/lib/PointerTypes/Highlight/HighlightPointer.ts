@@ -15,8 +15,8 @@ export class HighlightPointer extends BasePointer {
     private targetElement: Element;
     private cssHighlightClass: string;
 
-    constructor(cursor: HTMLElement) {
-        super(cursor);
+    constructor(pointer: HTMLElement) {
+        super(pointer);
         this.specularLayer = new SpecularLayer();
         this.highlightStyle = null;
         this.cssHighlightClass = 'pointer-highlight-type';
@@ -27,13 +27,13 @@ export class HighlightPointer extends BasePointer {
         const newX = left - (left - pointerX + width / 2) / 6;
         const newY = top - (top - pointerY + height / 2) / 8;
 
-        gsap.to(this.cursor, {
+        gsap.to(this.pointer, {
             x: newX,
             y: newY,
             duration: 0.15,
         });
 
-        this.specularLayer.update(specularLayer => {
+        this.specularLayer.update((specularLayer) => {
             gsap.to(specularLayer, {
                 x: newX,
                 y: newY,
@@ -44,7 +44,7 @@ export class HighlightPointer extends BasePointer {
                     top - pointerY
                 )}px, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 60%)`,
             });
-        })
+        });
 
         gsap.to(this.targetElement, {
             x: -(left - pointerX + width / 2) / 18,
@@ -53,8 +53,13 @@ export class HighlightPointer extends BasePointer {
         });
     }
 
-    onUse(targetElement: Element): void {
-        const { width, height, top, left } = targetElement.getBoundingClientRect();
+    onInit(targetElement: Element): void {
+        const {
+            width,
+            height,
+            top,
+            left,
+        } = targetElement.getBoundingClientRect();
         const radius: number = parseFloat(
             window.getComputedStyle(targetElement).borderRadius
         );
@@ -67,9 +72,9 @@ export class HighlightPointer extends BasePointer {
         this.specularLayer.init();
         this.createHighlighStyle();
 
-        this.cursor.classList.add(this.cssHighlightClass);
+        this.pointer.classList.add(this.cssHighlightClass);
 
-        gsap.to(this.cursor, {
+        gsap.to(this.pointer, {
             y: top,
             x: left,
             width,
@@ -78,7 +83,7 @@ export class HighlightPointer extends BasePointer {
             duration: 0.15,
         });
 
-        this.specularLayer.update(specularLayer => {
+        this.specularLayer.update((specularLayer) => {
             gsap.to(specularLayer, {
                 y: top,
                 x: left,
@@ -87,13 +92,13 @@ export class HighlightPointer extends BasePointer {
                 borderRadius: radius,
                 duration: 0.15,
             });
-        })
+        });
     }
 
     onReset(): void {
         this.specularLayer.destroy();
         this.removeHighlighStyle();
-        this.cursor.classList.remove(this.cssHighlightClass);
+        this.pointer.classList.remove(this.cssHighlightClass);
 
         gsap.to(this.targetElement, {
             x: 0,

@@ -1,73 +1,76 @@
-import { BasePointer } from './PointerModels/Base';
-import { DefaultPointer } from './PointerModels/Default';
-import { ContentPointer } from './PointerModels/Content';
-import { HighlightPointer } from './PointerModels/Highlight';
-import { LiftPointer } from './PointerModels/Lift';
+/* @Pointer */
+import { Pointer } from './Pointer';
+
+/* @Pointer types */
+import { ContentPointer } from './PointerTypes/Content';
+import { HighlightPointer } from './PointerTypes/Highlight';
+import { LiftPointer } from './PointerTypes/Lift';
 
 export class MorphingPointer {
-    private cursor: HTMLElement;
-    private currentPointer: BasePointer;
-    private pointerTypeRegistry: Map<string, any>;
+    private pointer: Pointer;
+    private pointerPosition: { x: number; y: number };
+    // TODO: REMOVE ANY
+    private pointerModelRegistry: Map<string, any>;
 
     constructor() {
-        this.initPointer();
-        this.currentPointer = new DefaultPointer(this.cursor);
-        this.pointerTypeRegistry = new Map();
-        this.pointerTypeRegistry.set('default', DefaultPointer);
-        this.pointerTypeRegistry.set('content', ContentPointer);
-        this.pointerTypeRegistry.set('highlight', HighlightPointer);
-        this.pointerTypeRegistry.set('lift', LiftPointer);
+        this.pointer = new Pointer();
+        this.pointerPosition = { x: 0, y: 0 };
+        this.pointerModelRegistry = new Map();
+        this.pointerModelRegistry.set('content', ContentPointer);
+        this.pointerModelRegistry.set('highlight', HighlightPointer);
+        this.pointerModelRegistry.set('lift', LiftPointer);
     }
 
-    setType(pointerType: string, targetElement: Element): void {
-        const SelectedPointer = this.pointerTypeRegistry.get(pointerType);
-
-        this.currentPointer = new SelectedPointer(this.cursor);
-        this.currentPointer.onUse(targetElement);
+    public init() {
+        this.initEventListeners();
+        this.initUpdates();
     }
 
-    setDefaultType(): void {
-        this.currentPointer.onReset();
-        this.currentPointer = new DefaultPointer(this.cursor);
-        this.currentPointer.onUse();
+    private setType(pointerType: string, targetElement: Element): void {
+        const selectedPointerType = this.pointerModelRegistry.get(pointerType);
+
+        this.pointer.setTargetElement(targetElement);
+        this.pointer.setType(selectedPointerType);
     }
 
-    updatePosition(x: number, y: number): void {
-        this.currentPointer.onUpdate(x, y);
+    private setDefaultType(): void {
+        this.pointer.onReset();
     }
 
-    initPointer(): void {
-        const div = document.createElement('div');
-        const style = document.createElement('style');
+    private updatePosition(x: number, y: number): void {
+        this.pointer.onUpdate(x, y);
+    }
 
-        div.classList.add('iPad-pointer');
+    private initUpdates() {
+        const update = () => {
+            this.updatePosition(this.pointerPosition.x, this.pointerPosition.y);
+            requestAnimationFrame(update);
+        };
 
-        style.innerText = `
-            body, [data-pointer-type] {
-                 cursor: none;
-            }
+        requestAnimationFrame(update);
+    }
 
-            button, link {
-                outline: none !important;
-            }
+    private initEventListeners() {
+        const pointers = Array.from(
+            document.querySelectorAll('[data-pointer-type]')
+        );
 
-            .iPad-pointer {
-                position: fixed;
-                pointer-events: none;
-                top: 0;
-                left: 0;
-                width: 20px;
-                height: 20px;
-                border-radius: 100px;
-                background-color: rgba(0,0,0,0.23);
-                z-index: 99999999;
-                transition: background-color 150ms ease;
-            }
-        `;
+        pointers.forEach((pointer) => {
+            pointer.addEventListener('mouseenter', (e) => {
+                const element = e.currentTarget as HTMLElement;
+                const { pointerType } = element.dataset;
 
-        document.head.appendChild(style);
-        document.body.appendChild(div);
+                this.setType(pointerType, element);
+            });
 
-        this.cursor = div;
+            pointer.addEventListener('mouseleave', () => {
+                this.setDefaultType();
+            });
+        });
+
+        window.addEventListener('mousemove', (event: MouseEvent) => {
+            this.pointerPosition.x = event.clientX;
+            this.pointerPosition.y = event.clientY;
+        });
     }
 }
