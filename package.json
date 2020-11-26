@@ -1,15 +1,25 @@
 {
   "name": "morphing-pointer",
-  "version": "0.1.0",
-  "description": "",
-  "private": true,
+  "version": "0.2.0",
+  "description": "Morphing pointer in iPadOS style",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VoloshchenkoAl/morphing-pointer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/VoloshchenkoAl/morphing-pointer/issues"
+  },
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack.prod.config.js",
     "start": "webpack-dev-server --open"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cursor",
+    "typescript",
+    "ipdaos",
+    "gsap"
+  ],
+  "author": "Voloshchenko Aleksandr <voloshchenkoal@gmail.com>",
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.6.0",
@@ -24,10 +34,11 @@
     "typescript": "^4.1.2",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "tailwindcss": "^2.0.1"
   },
   "dependencies": {
-    "gsap": "^3.5.1",
-    "tailwindcss": "^2.0.1"
-  }
+    "gsap": "^3.5.1"
+  },
+  "license": "MIT"
 }
