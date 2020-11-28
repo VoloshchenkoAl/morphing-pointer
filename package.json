@@ -4,8 +4,10 @@
   "description": "Morphing pointer in iPadOS style",
   "main": "dist/index.js",
   "source": "src/index.ts",
+  "types": "index.d.ts",
   "files": [
-    "dist/*"
+    "dist/*",
+    "index.d.ts"
   ],
   "repository": {
     "type": "git",
