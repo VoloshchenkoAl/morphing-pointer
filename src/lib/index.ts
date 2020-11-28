@@ -1,1 +1,0 @@
-export { MorphingPointer } from './MorphingPointer';

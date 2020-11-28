@@ -1,3 +1,3 @@
-import { MorphingPointer } from './lib';
+import { MorphingPointer } from 'morphing-pointer';
 
 new MorphingPointer().init();
