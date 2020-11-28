@@ -664,10 +664,6 @@ video {
   padding-left: 2rem;
 }
 
-.fixed {
-  position: fixed;
-}
-
 .relative {
   position: relative;
 }
@@ -748,12 +744,6 @@ video {
 
 .auto-cols-min {
   grid-auto-columns: min-content;
-}
-
-.transition {
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
 }
 
 @keyframes spin {
