@@ -10,7 +10,7 @@ Install with npm:
 npm install --save morphing-pointer
 ```
 
-<img src="https://raw.githubusercontent.com/VoloshchenkoAl/morphing-pointer/master/public/animation.gif" alt="morphing pointer" />
+<img src="https://raw.githubusercontent.com/VoloshchenkoAl/morphing-pointer/main/public/animation.gif" alt="morphing pointer" />
 
 ## Example of use
 
@@ -29,6 +29,7 @@ And use different triggers in html to add different types of animation
 | highlight      | data-pointer-type="highlight" |
 | lift           | data-pointer-type="lift"      |
 | content        | data-pointer-type="content"   |
+
 
 ```html
 <button data-pointer-type="lift">Button</button>
