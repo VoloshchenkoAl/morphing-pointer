@@ -1,4 +1,4 @@
-name: release
+name: Build and Publish
 
 on:
   push:
@@ -34,6 +34,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+          registry-url: https://registry.npmjs.org/
 
       - name: Install and Build
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
@@ -41,9 +42,8 @@ jobs:
           npm ci
           npm run build
 
-      - name: Deploy
+      - name: Publish
         if: ${{ steps.changelog.outputs.skipped == 'false' }}
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

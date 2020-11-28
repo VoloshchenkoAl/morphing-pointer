@@ -1,15 +1,20 @@
 {
   "compilerOptions": {
-    "outDir": "./build/",
+    "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "es6",
     "target": "es5",
     "allowJs": true,
+    "declaration": true,
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "lib": ["DOM", "ES6"]
   },
+  "include": [
+    "./src/**/*"
+  ],
   "exclude": [
       "node_modules"
   ]

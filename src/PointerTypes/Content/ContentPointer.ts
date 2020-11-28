@@ -44,10 +44,9 @@ export class ContentPointer extends BasePointer {
 
     onInit(targetElement: Element): void {
         const { top, height } = targetElement.getBoundingClientRect();
-        const lineHeight = parseInt(
-            window.getComputedStyle(targetElement).lineHeight,
-            10
-        );
+        const lineHeight =
+            parseInt(window.getComputedStyle(targetElement).lineHeight, 10) ||
+            16;
         const paddingTop = parseFloat(
             window.getComputedStyle(targetElement).paddingTop
         );
@@ -62,6 +61,7 @@ export class ContentPointer extends BasePointer {
         }).map(
             (_, index) => top + paddingTop + lineHeight + index * lineHeight
         );
+
         this.horizontalGridPosition.push(top + paddingTop);
         this.lineHeight = lineHeight;
 

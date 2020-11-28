@@ -1,2 +1,1 @@
-import './index.scss';
-import './app';
+export { MorphingPointer } from './MorphingPointer';
