@@ -1,19 +1,17 @@
-/* @Pointer */
-import { Pointer } from './Pointer';
-
-/* @Pointer types */
-import { ContentPointer } from './PointerTypes/Content';
-import { HighlightPointer } from './PointerTypes/Highlight';
-import { LiftPointer } from './PointerTypes/Lift';
+/* @Pointers */
+import { DefaultPointer } from './Pointers/Default';
+import { ContentPointer } from './Pointers/Content';
+import { HighlightPointer } from './Pointers/Highlight';
+import { LiftPointer } from './Pointers/Lift';
 
 export class MorphingPointer {
-    private pointer: Pointer;
+    private pointer: DefaultPointer;
     private pointerPosition: { x: number; y: number };
     // TODO: REMOVE ANY
     private pointerModelRegistry: Map<string, any>;
 
     constructor() {
-        this.pointer = new Pointer();
+        this.pointer = new DefaultPointer();
         this.pointerPosition = { x: 0, y: 0 };
         this.pointerModelRegistry = new Map();
         this.pointerModelRegistry.set('content', ContentPointer);
@@ -23,7 +21,7 @@ export class MorphingPointer {
 
     public init() {
         this.initEventListeners();
-        this.initUpdates();
+        this.initPointerPositionUpdates();
     }
 
     private setType(pointerType: string, targetElement: Element): void {
@@ -37,13 +35,15 @@ export class MorphingPointer {
         this.pointer.onReset();
     }
 
-    private updatePosition(x: number, y: number): void {
+    private updatePointerPosition(x: number, y: number): void {
         this.pointer.onUpdate(x, y);
     }
 
-    private initUpdates() {
+    private initPointerPositionUpdates(): void {
         const update = () => {
-            this.updatePosition(this.pointerPosition.x, this.pointerPosition.y);
+            const { x, y } = this.pointerPosition;
+
+            this.updatePointerPosition(x, y);
             requestAnimationFrame(update);
         };
 

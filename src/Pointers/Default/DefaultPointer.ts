@@ -1,7 +1,7 @@
-import { BasePointer } from '../PointerTypes/Base';
+import { BasePointer } from '../Base';
 import { gsap } from 'gsap';
 
-export class Pointer {
+export class DefaultPointer {
     private pointer: HTMLElement;
     private pointerType: BasePointer;
     private targetElement: Element;
