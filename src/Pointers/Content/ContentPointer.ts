@@ -1,12 +1,15 @@
-import { BasePointer } from '../Base';
 import { gsap } from 'gsap';
 
-export class ContentPointer extends BasePointer {
+/* @Types */
+import { Pointer } from '../Base';
+
+export class ContentPointer implements Pointer {
     private horizontalGridPosition: number[];
     private lineHeight: number;
+    protected pointer: HTMLElement;
 
     constructor(pointer: HTMLElement) {
-        super(pointer);
+        this.pointer = pointer;
         this.horizontalGridPosition = [];
         this.lineHeight = 0;
     }

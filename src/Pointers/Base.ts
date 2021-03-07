@@ -1,11 +1,5 @@
-export abstract class BasePointer {
-    protected pointer: HTMLElement;
-
-    constructor(pointer: HTMLElement) {
-        this.pointer = pointer;
-    }
-
-    abstract onUpdate(pointerX: number, pointerY: number): void;
-    abstract onInit(targetElement?: Element): void;
-    abstract onReset(): void;
+export interface Pointer {
+    onUpdate(pointerX: number, pointerY: number): void;
+    onInit(targetElement?: Element): void;
+    onReset(): void;
 }

@@ -1,22 +1,15 @@
-/* @Pointers */
-import { DefaultPointer } from './Pointers/Default';
-import { ContentPointer } from './Pointers/Content';
-import { HighlightPointer } from './Pointers/Highlight';
-import { LiftPointer } from './Pointers/Lift';
+import { DefaultPointer } from 'pointers/Default';
+
+/* @helpers */
+import { getPointer } from 'helpers/pointersRegistry';
 
 export class MorphingPointer {
     private pointer: DefaultPointer;
     private pointerPosition: { x: number; y: number };
-    // TODO: REMOVE ANY
-    private pointerModelRegistry: Map<string, any>;
 
     constructor() {
         this.pointer = new DefaultPointer();
         this.pointerPosition = { x: 0, y: 0 };
-        this.pointerModelRegistry = new Map();
-        this.pointerModelRegistry.set('content', ContentPointer);
-        this.pointerModelRegistry.set('highlight', HighlightPointer);
-        this.pointerModelRegistry.set('lift', LiftPointer);
     }
 
     public init() {
@@ -25,7 +18,7 @@ export class MorphingPointer {
     }
 
     private setType(pointerType: string, targetElement: Element): void {
-        const selectedPointerType = this.pointerModelRegistry.get(pointerType);
+        const selectedPointerType = getPointer(pointerType);
 
         this.pointer.setTargetElement(targetElement);
         this.pointer.setType(selectedPointerType);

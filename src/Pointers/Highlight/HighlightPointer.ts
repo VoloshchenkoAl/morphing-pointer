@@ -1,8 +1,9 @@
-import { BasePointer } from '../Base';
-import { SpecularLayer } from '../helpers/SpecularLayer';
+import { SpecularLayer } from 'helpers/SpecularLayer';
 import { gsap } from 'gsap';
 
-export class HighlightPointer extends BasePointer {
+/* @Types */
+import { Pointer } from '../Base';
+export class HighlightPointer implements Pointer {
     private specularLayer: SpecularLayer;
     private highlightStyle: HTMLElement;
     private targetElementValues: {
@@ -14,12 +15,13 @@ export class HighlightPointer extends BasePointer {
     };
     private targetElement: Element;
     private cssHighlightClass: string;
+    protected pointer: HTMLElement;
 
     constructor(pointer: HTMLElement) {
-        super(pointer);
         this.specularLayer = new SpecularLayer();
         this.highlightStyle = null;
         this.cssHighlightClass = 'pointer-highlight-type';
+        this.pointer = pointer;
     }
 
     onUpdate(pointerX: number, pointerY: number): void {

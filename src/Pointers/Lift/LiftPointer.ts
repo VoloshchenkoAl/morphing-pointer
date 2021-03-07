@@ -1,8 +1,10 @@
-import { BasePointer } from '../Base';
-import { SpecularLayer } from '../helpers/SpecularLayer';
 import { gsap } from 'gsap';
+import { SpecularLayer } from 'helpers/SpecularLayer';
 
-export class LiftPointer extends BasePointer {
+/* @Types */
+import { Pointer } from '../Base';
+
+export class LiftPointer implements Pointer {
     private specularLayer: SpecularLayer;
     private targetElement: Element;
     private targetElementValues: {
@@ -14,12 +16,13 @@ export class LiftPointer extends BasePointer {
     };
     private cssLiftClass: string;
     private liftStyle: Element;
+    protected pointer: HTMLElement;
 
     constructor(pointer: HTMLElement) {
-        super(pointer);
         this.specularLayer = new SpecularLayer();
         this.cssLiftClass = 'pointer-lift-type';
         this.liftStyle = null;
+        this.pointer = pointer;
     }
 
     onInit(targetElement: Element): void {

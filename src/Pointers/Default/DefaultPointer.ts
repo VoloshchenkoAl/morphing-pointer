@@ -1,9 +1,11 @@
-import { BasePointer } from '../Base';
 import { gsap } from 'gsap';
+
+/* @Types */
+import { Pointer } from '../Base';
 
 export class DefaultPointer {
     private pointer: HTMLElement;
-    private pointerType: BasePointer;
+    private pointerType: Pointer;
     private targetElement: Element;
     private defaultStyle: { width: number; height: number; radius: number };
 
