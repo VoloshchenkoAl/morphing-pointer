@@ -17,9 +17,9 @@ npm install --save morphing-pointer
 Init Morphing Pointer in your app
 
 ```js
-import { MorphingPointer } from 'circular-revealer';
+import { initMorphingPointer } from 'circular-revealer';
 
-new MorphingPointer().init();
+initMorphingPointer();
 ```
 
 And use different triggers in html to add different types of animation

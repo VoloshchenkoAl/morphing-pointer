@@ -1,8 +1,13 @@
-import { BasePointer } from '../Base';
-import { SpecularLayer } from '../helpers/SpecularLayer';
+/* @Animation Lib */
 import { gsap } from 'gsap';
 
-export class LiftPointer extends BasePointer {
+/* @Types */
+import { Pointer } from 'pointers/Pointer';
+
+/* @Helpers */
+import { SpecularLayer } from 'helpers/SpecularLayer';
+
+export class LiftPointer implements Pointer {
     private specularLayer: SpecularLayer;
     private targetElement: Element;
     private targetElementValues: {
@@ -14,28 +19,23 @@ export class LiftPointer extends BasePointer {
     };
     private cssLiftClass: string;
     private liftStyle: Element;
+    private pointerElement: HTMLElement;
 
-    constructor(pointer: HTMLElement) {
-        super(pointer);
+    constructor(pointerElement: HTMLElement, targetElement: HTMLElement) {
         this.specularLayer = new SpecularLayer();
         this.cssLiftClass = 'pointer-lift-type';
         this.liftStyle = null;
+        this.pointerElement = pointerElement;
+        this.targetElement = targetElement;
     }
 
-    onInit(targetElement: Element): void {
-        const {
-            width,
-            height,
-            top,
-            left,
-        } = targetElement.getBoundingClientRect();
-        const targetStyles = window.getComputedStyle(targetElement);
+    public init(): void {
+        const { width, height, top, left } = this.targetElement.getBoundingClientRect();
+        const targetStyles = window.getComputedStyle(this.targetElement);
         const radius: number = parseFloat(targetStyles.borderRadius);
         const zIndex: number = parseFloat(targetStyles.zIndex);
-        const bgColor: string = window.getComputedStyle(targetElement)
-            .backgroundColor;
+        const targetBgColor: string = targetStyles.backgroundColor;
 
-        this.targetElement = targetElement;
         this.targetElementValues = {
             top,
             left,
@@ -44,18 +44,18 @@ export class LiftPointer extends BasePointer {
             zIndex,
         };
 
-        this.createLiftStyle();
+        this.addLiftStyle();
         this.specularLayer.init();
-        this.pointer.classList.add(this.cssLiftClass);
+        this.pointerElement.classList.add(this.cssLiftClass);
 
-        gsap.to(this.pointer, {
+        gsap.to(this.pointerElement, {
             y: top - 0.075 * height,
             x: left - 0.075 * width,
             width: width * 1.15,
             height: height * 1.15,
             borderRadius: radius,
             duration: 0.15,
-            filter: `drop-shadow(0 -3px 12px ${bgColor}) drop-shadow(0 3px 6px black)`,
+            filter: `drop-shadow(0 -3px 12px ${targetBgColor}) drop-shadow(0 3px 6px black)`,
         });
 
         this.specularLayer.update((specularLayer) => {
@@ -75,7 +75,7 @@ export class LiftPointer extends BasePointer {
         });
     }
 
-    onUpdate(pointerX: number, pointerY: number) {
+    public onUpdate(pointerX: number, pointerY: number): void {
         const scale = 1.15;
         const { top, left, width, height } = this.targetElementValues;
         const scaledWidth = width * scale;
@@ -87,7 +87,7 @@ export class LiftPointer extends BasePointer {
         const newX = left - 0.075 * width + deltaX;
         const newY = top - 0.075 * height + deltaY;
 
-        gsap.to(this.pointer, {
+        gsap.to(this.pointerElement, {
             x: newX,
             y: newY,
             duration: 0.15,
@@ -113,12 +113,12 @@ export class LiftPointer extends BasePointer {
         });
     }
 
-    onReset() {
+    public onReset(): void {
         this.removeLiftStyle();
         this.specularLayer.destroy();
-        this.pointer.classList.remove(this.cssLiftClass);
+        this.pointerElement.classList.remove(this.cssLiftClass);
 
-        gsap.to(this.pointer, {
+        gsap.to(this.pointerElement, {
             duration: 0.15,
             filter: 'none',
         });
@@ -135,7 +135,7 @@ export class LiftPointer extends BasePointer {
         this.liftStyle.parentElement.removeChild(this.liftStyle);
     }
 
-    private createLiftStyle(): void {
+    private addLiftStyle(): void {
         const style = document.createElement('style');
 
         style.innerHTML = `

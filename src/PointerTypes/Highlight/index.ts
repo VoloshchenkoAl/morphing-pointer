@@ -1,1 +1,0 @@
-export { HighlightPointer } from './HighlightPointer';

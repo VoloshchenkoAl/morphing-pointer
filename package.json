@@ -1,6 +1,6 @@
 {
   "name": "morphing-pointer",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Morphing pointer in iPadOS style",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -17,6 +17,7 @@
     "url": "https://github.com/VoloshchenkoAl/morphing-pointer/issues"
   },
   "scripts": {
+    "lint": "eslint ./src/**",
     "dev": "parcel ./public/index.html",
     "build": "parcel build ./src/index.ts --target browser --no-source-maps --experimental-scope-hoisting"
   },
@@ -28,11 +29,19 @@
   ],
   "author": "Voloshchenko Aleksandr <voloshchenkoal@gmail.com>",
   "dependencies": {
-    "gsap": "^3.5.1"
+    "gsap": "^3.6.0",
+    "pointers": "^1.1.3"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "eslint": "^7.21.0",
     "parcel-bundler": "^1.12.4",
-    "typescript": "^4.1.2"
+    "typescript": "^4.2.2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "alias": {
+    "pointers": "./src/pointers",
+    "helpers": "./src/helpers"
+  }
 }

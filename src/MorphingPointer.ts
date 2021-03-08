@@ -1,49 +1,49 @@
-/* @Pointer */
-import { Pointer } from './Pointer';
+/* @Helpers */
+import { getPointer } from 'helpers/pointersRegistry';
+import { createPointerElement } from 'helpers/pointer';
 
-/* @Pointer types */
-import { ContentPointer } from './PointerTypes/Content';
-import { HighlightPointer } from './PointerTypes/Highlight';
-import { LiftPointer } from './PointerTypes/Lift';
+/* @Types */
+import { Pointer } from 'pointers/Pointer';
 
 export class MorphingPointer {
     private pointer: Pointer;
+    private pointerElement: HTMLElement;
     private pointerPosition: { x: number; y: number };
-    // TODO: REMOVE ANY
-    private pointerModelRegistry: Map<string, any>;
 
     constructor() {
-        this.pointer = new Pointer();
+        this.pointerElement = createPointerElement();
+        this.setDefaultPointer();
         this.pointerPosition = { x: 0, y: 0 };
-        this.pointerModelRegistry = new Map();
-        this.pointerModelRegistry.set('content', ContentPointer);
-        this.pointerModelRegistry.set('highlight', HighlightPointer);
-        this.pointerModelRegistry.set('lift', LiftPointer);
     }
 
-    public init() {
+    public init(): void {
         this.initEventListeners();
-        this.initUpdates();
+        this.initPointerPositionUpdates();
     }
 
-    private setType(pointerType: string, targetElement: Element): void {
-        const selectedPointerType = this.pointerModelRegistry.get(pointerType);
+    private setSelectedPointer(pointerType: string, targetElement: HTMLElement): void {
+        const SelectedPointerType = getPointer(pointerType);
 
-        this.pointer.setTargetElement(targetElement);
-        this.pointer.setType(selectedPointerType);
+        this.pointer = new SelectedPointerType(this.pointerElement, targetElement);
+        this.pointer.init();
     }
 
-    private setDefaultType(): void {
-        this.pointer.onReset();
+    private setDefaultPointer(): void {
+        const DefaultPointer = getPointer('default');
+
+        this.pointer = new DefaultPointer(this.pointerElement);
+        this.pointer.init();
     }
 
-    private updatePosition(x: number, y: number): void {
+    private updatePointerPosition(x: number, y: number): void {
         this.pointer.onUpdate(x, y);
     }
 
-    private initUpdates() {
+    private initPointerPositionUpdates(): void {
         const update = () => {
-            this.updatePosition(this.pointerPosition.x, this.pointerPosition.y);
+            const { x, y } = this.pointerPosition;
+
+            this.updatePointerPosition(x, y);
             requestAnimationFrame(update);
         };
 
@@ -60,11 +60,12 @@ export class MorphingPointer {
                 const element = e.currentTarget as HTMLElement;
                 const { pointerType } = element.dataset;
 
-                this.setType(pointerType, element);
+                this.setSelectedPointer(pointerType, element);
             });
 
             pointer.addEventListener('mouseleave', () => {
-                this.setDefaultType();
+                this.pointer.onReset();
+                this.setDefaultPointer();
             });
         });
 
