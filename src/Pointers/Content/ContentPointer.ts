@@ -1,21 +1,24 @@
+/* @Animation Lib */
 import { gsap } from 'gsap';
 
 /* @Types */
-import { Pointer } from '../Base';
+import { Pointer } from 'pointers/Pointer';
 
 export class ContentPointer implements Pointer {
     private horizontalGridPosition: number[];
     private lineHeight: number;
-    protected pointer: HTMLElement;
+    private pointerElement: HTMLElement;
+    private targetElement: HTMLElement;
 
-    constructor(pointer: HTMLElement) {
-        this.pointer = pointer;
+    constructor(pointerElement: HTMLElement, targetElement: HTMLElement) {
+        this.pointerElement = pointerElement;
+        this.targetElement = targetElement;
         this.horizontalGridPosition = [];
         this.lineHeight = 0;
     }
 
-    onUpdate(pointerX: number, pointerY: number): void {
-        const { offsetWidth } = this.pointer;
+    public onUpdate(pointerX: number, pointerY: number): void {
+        const { offsetWidth } = this.pointerElement;
         const roller = Math.max(
             ...this.horizontalGridPosition.filter((top) => pointerY > top)
         );
@@ -31,13 +34,13 @@ export class ContentPointer implements Pointer {
         const baseY = roller + deltaY;
 
         if (pointerY >= minValue && pointerY <= maxValue && roller > 0) {
-            gsap.to(this.pointer, {
+            gsap.to(this.pointerElement, {
                 x: baseX,
                 y: baseY,
                 duration: 0.15,
             });
         } else {
-            gsap.to(this.pointer, {
+            gsap.to(this.pointerElement, {
                 x: pointerX - offsetWidth / 2,
                 y: pointerY - this.lineHeight / 2,
                 duration: 0.15,
@@ -45,17 +48,12 @@ export class ContentPointer implements Pointer {
         }
     }
 
-    onInit(targetElement: Element): void {
-        const { top, height } = targetElement.getBoundingClientRect();
-        const lineHeight =
-            parseInt(window.getComputedStyle(targetElement).lineHeight, 10) ||
-            16;
-        const paddingTop = parseFloat(
-            window.getComputedStyle(targetElement).paddingTop
-        );
-        const paddingBottom = parseFloat(
-            window.getComputedStyle(targetElement).paddingBottom
-        );
+    public init(): void {
+        const { top, height } = this.targetElement.getBoundingClientRect();
+        const targetElementStyles = window.getComputedStyle(this.targetElement);
+        const lineHeight = parseInt(targetElementStyles.lineHeight, 10) || 16;
+        const paddingTop = parseFloat(targetElementStyles.paddingTop);
+        const paddingBottom = parseFloat(targetElementStyles.paddingBottom);
 
         this.horizontalGridPosition = Array.from({
             length: Math.round(
@@ -68,7 +66,7 @@ export class ContentPointer implements Pointer {
         this.horizontalGridPosition.push(top + paddingTop);
         this.lineHeight = lineHeight;
 
-        gsap.to(this.pointer, {
+        gsap.to(this.pointerElement, {
             width: this.lineHeight / 10,
             height: this.lineHeight,
             borderRadius: 10,
@@ -76,5 +74,5 @@ export class ContentPointer implements Pointer {
         });
     }
 
-    onReset(): void {}
+    public onReset(): void {}
 }

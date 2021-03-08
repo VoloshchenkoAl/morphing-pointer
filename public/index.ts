@@ -1,3 +1,3 @@
-import { MorphingPointer } from '../src/MorphingPointer';
+import { initMorphingPointer } from '../src/index';
 
-new MorphingPointer().init();
+initMorphingPointer();

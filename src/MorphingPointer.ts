@@ -1,14 +1,18 @@
-import { DefaultPointer } from 'pointers/Default';
-
-/* @helpers */
+/* @Helpers */
 import { getPointer } from 'helpers/pointersRegistry';
+import { createPointerElement } from 'helpers/pointer';
+
+/* @Types */
+import { PointerClass, Pointer } from 'pointers/Pointer';
 
 export class MorphingPointer {
-    private pointer: DefaultPointer;
+    private pointer: Pointer;
+    private pointerElement: HTMLElement;
     private pointerPosition: { x: number; y: number };
 
     constructor() {
-        this.pointer = new DefaultPointer();
+        this.pointerElement = createPointerElement();
+        this.setDefaultPointer();
         this.pointerPosition = { x: 0, y: 0 };
     }
 
@@ -17,15 +21,18 @@ export class MorphingPointer {
         this.initPointerPositionUpdates();
     }
 
-    private setType(pointerType: string, targetElement: Element): void {
-        const selectedPointerType = getPointer(pointerType);
+    private setSelectedPointer(pointerType: string, targetElement: HTMLElement): void {
+        const SelectedPointerType = getPointer(pointerType);
 
-        this.pointer.setTargetElement(targetElement);
-        this.pointer.setType(selectedPointerType);
+        this.pointer = new SelectedPointerType(this.pointerElement, targetElement);
+        this.pointer.init();
     }
 
-    private setDefaultType(): void {
-        this.pointer.onReset();
+    private setDefaultPointer(): void {
+        const DefaultPointer = getPointer('default');
+
+        this.pointer = new DefaultPointer(this.pointerElement);
+        this.pointer.init();
     }
 
     private updatePointerPosition(x: number, y: number): void {
@@ -53,11 +60,12 @@ export class MorphingPointer {
                 const element = e.currentTarget as HTMLElement;
                 const { pointerType } = element.dataset;
 
-                this.setType(pointerType, element);
+                this.setSelectedPointer(pointerType, element);
             });
 
             pointer.addEventListener('mouseleave', () => {
-                this.setDefaultType();
+                this.pointer.onReset();
+                this.setDefaultPointer();
             });
         });
 

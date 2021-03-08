@@ -1,8 +1,12 @@
-import { SpecularLayer } from 'helpers/SpecularLayer';
+/* @Animation Lib */
 import { gsap } from 'gsap';
 
 /* @Types */
-import { Pointer } from '../Base';
+import { Pointer } from 'pointers/Pointer';
+
+/* @Helpers */
+import { SpecularLayer } from 'helpers/SpecularLayer';
+
 export class HighlightPointer implements Pointer {
     private specularLayer: SpecularLayer;
     private highlightStyle: HTMLElement;
@@ -15,21 +19,22 @@ export class HighlightPointer implements Pointer {
     };
     private targetElement: Element;
     private cssHighlightClass: string;
-    protected pointer: HTMLElement;
+    private pointerElement: HTMLElement;
 
-    constructor(pointer: HTMLElement) {
+    constructor(pointerElement: HTMLElement, targetElement: HTMLElement) {
         this.specularLayer = new SpecularLayer();
         this.highlightStyle = null;
         this.cssHighlightClass = 'pointer-highlight-type';
-        this.pointer = pointer;
+        this.pointerElement = pointerElement;
+        this.targetElement = targetElement;
     }
 
-    onUpdate(pointerX: number, pointerY: number): void {
+    public onUpdate(pointerX: number, pointerY: number): void {
         const { top, left, width, height } = this.targetElementValues;
         const newX = left - (left - pointerX + width / 2) / 6;
         const newY = top - (top - pointerY + height / 2) / 8;
 
-        gsap.to(this.pointer, {
+        gsap.to(this.pointerElement, {
             x: newX,
             y: newY,
             duration: 0.15,
@@ -55,28 +60,27 @@ export class HighlightPointer implements Pointer {
         });
     }
 
-    onInit(targetElement: Element): void {
+    public init(): void {
         const {
             width,
             height,
             top,
             left,
-        } = targetElement.getBoundingClientRect();
+        } = this.targetElement.getBoundingClientRect();
         const radius: number = parseFloat(
-            window.getComputedStyle(targetElement).borderRadius
+            window.getComputedStyle(this.targetElement).borderRadius
         );
         const zIndex: number = parseFloat(
-            window.getComputedStyle(targetElement).zIndex
+            window.getComputedStyle(this.targetElement).zIndex
         );
         this.targetElementValues = { top, left, width, height, zIndex };
-        this.targetElement = targetElement;
 
         this.specularLayer.init();
         this.createHighlighStyle();
 
-        this.pointer.classList.add(this.cssHighlightClass);
+        this.pointerElement.classList.add(this.cssHighlightClass);
 
-        gsap.to(this.pointer, {
+        gsap.to(this.pointerElement, {
             y: top,
             x: left,
             width,
@@ -97,10 +101,10 @@ export class HighlightPointer implements Pointer {
         });
     }
 
-    onReset(): void {
+    public onReset(): void {
         this.specularLayer.destroy();
         this.removeHighlighStyle();
-        this.pointer.classList.remove(this.cssHighlightClass);
+        this.pointerElement.classList.remove(this.cssHighlightClass);
 
         gsap.to(this.targetElement, {
             x: 0,
