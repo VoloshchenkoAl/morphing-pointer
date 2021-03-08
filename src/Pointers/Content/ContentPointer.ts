@@ -1,5 +1,5 @@
 /* @Animation Lib */
-import { gsap } from 'gsap';
+import { gsap, TweenMax } from 'gsap';
 
 /* @Types */
 import { Pointer } from 'pointers/Pointer';
@@ -90,6 +90,9 @@ export class ContentPointer implements Pointer {
         gsap.to(this.pointerElement, {
             background: this.pointerBackground,
             scale: 1,
+            onComplete: () => {
+                TweenMax.set(this.pointerElement, { clearProps: 'background' });
+            }
         });
     }
 
