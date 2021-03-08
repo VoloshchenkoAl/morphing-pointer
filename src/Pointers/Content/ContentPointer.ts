@@ -2,7 +2,7 @@
 import { gsap, TweenMax } from 'gsap';
 
 /* @Types */
-import { Pointer } from '../Pointer';
+import { Pointer } from 'pointers/Pointer';
 
 export class ContentPointer implements Pointer {
     private horizontalGridPosition: number[];

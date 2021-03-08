@@ -2,10 +2,10 @@
 import { gsap } from 'gsap';
 
 /* @Types */
-import { Pointer } from '../Pointer';
+import { Pointer } from 'pointers/Pointer';
 
 /* @Helpers */
-import { SpecularLayer } from '../../helpers/SpecularLayer';
+import { SpecularLayer } from 'helpers/SpecularLayer';
 
 export class LiftPointer implements Pointer {
     private specularLayer: SpecularLayer;
