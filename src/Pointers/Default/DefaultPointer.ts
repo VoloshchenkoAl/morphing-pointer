@@ -17,7 +17,7 @@ export class DefaultPointer implements Pointer {
         };
     }
 
-    public onUpdate(pointerX: number, pointerY: number) {
+    public onUpdate(pointerX: number, pointerY: number): void {
         gsap.to(this.pointerElement, {
             x: pointerX - this.defaultStyle.width / 2,
             y: pointerY - this.defaultStyle.height / 2,
@@ -25,7 +25,7 @@ export class DefaultPointer implements Pointer {
         });
     }
 
-    public init() {
+    public init(): void {
         gsap.to(this.pointerElement, {
             width: this.defaultStyle.width,
             height: this.defaultStyle.height,
@@ -33,6 +33,4 @@ export class DefaultPointer implements Pointer {
             duration: 0.15,
         });
     }
-
-    public onReset(): void {};
 }

@@ -22,7 +22,7 @@ export function addPointer(pointerType: string, pointer: PointerClass): void {
     }
 
     pointerModelRegistry.set(pointerType, pointer);
-};
+}
 
 export function getPointer(pointerType: string): PointerClass {
     if (!pointerModelRegistry.has(pointerType)) {
@@ -32,5 +32,4 @@ export function getPointer(pointerType: string): PointerClass {
     }
 
     return pointerModelRegistry.get(pointerType);
-};
-
+}

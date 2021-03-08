@@ -75,7 +75,7 @@ export class LiftPointer implements Pointer {
         });
     }
 
-    public onUpdate(pointerX: number, pointerY: number) {
+    public onUpdate(pointerX: number, pointerY: number): void {
         const scale = 1.15;
         const { top, left, width, height } = this.targetElementValues;
         const scaledWidth = width * scale;
@@ -113,7 +113,7 @@ export class LiftPointer implements Pointer {
         });
     }
 
-    public onReset() {
+    public onReset(): void {
         this.removeLiftStyle();
         this.specularLayer.destroy();
         this.pointerElement.classList.remove(this.cssLiftClass);

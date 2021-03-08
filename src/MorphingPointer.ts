@@ -3,7 +3,7 @@ import { getPointer } from 'helpers/pointersRegistry';
 import { createPointerElement } from 'helpers/pointer';
 
 /* @Types */
-import { PointerClass, Pointer } from 'pointers/Pointer';
+import { Pointer } from 'pointers/Pointer';
 
 export class MorphingPointer {
     private pointer: Pointer;
@@ -16,7 +16,7 @@ export class MorphingPointer {
         this.pointerPosition = { x: 0, y: 0 };
     }
 
-    public init() {
+    public init(): void {
         this.initEventListeners();
         this.initPointerPositionUpdates();
     }
