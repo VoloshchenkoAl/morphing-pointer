@@ -1,4 +1,1 @@
-export class MorphingPointer {
-    constructor();
-    init(): void;
-}
+export function initMorphingPointer(): void
