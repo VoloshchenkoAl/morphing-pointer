@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 
 /* @Types */
-import { Pointer } from 'pointers/Pointer';
+import { Pointer } from '../Pointer';
 
 export class DefaultPointer implements Pointer {
     private pointerElement: HTMLElement;
