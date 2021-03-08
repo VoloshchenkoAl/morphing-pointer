@@ -11,11 +11,7 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "lib": ["DOM", "ES6"],
-    "baseUrl": "./src",
-    "paths": {
-      "pointers/*": ["pointers/*"],
-      "helpers/*": ["helpers/*"]
-    }
+    "baseUrl": "./src"
   },
   "include": [
     "src/**/*"
