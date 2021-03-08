@@ -7,6 +7,7 @@ import { Pointer } from 'pointers/Pointer';
 export class ContentPointer implements Pointer {
     private horizontalGridPosition: number[];
     private lineHeight: number;
+    private pointerBackground: string;
     private pointerElement: HTMLElement;
     private targetElement: HTMLElement;
 
@@ -15,6 +16,8 @@ export class ContentPointer implements Pointer {
         this.targetElement = targetElement;
         this.horizontalGridPosition = [];
         this.lineHeight = 0;
+
+        this.initEventListener();
     }
 
     public onUpdate(pointerX: number, pointerY: number): void {
@@ -51,6 +54,7 @@ export class ContentPointer implements Pointer {
     public init(): void {
         const { top, height } = this.targetElement.getBoundingClientRect();
         const targetElementStyles = window.getComputedStyle(this.targetElement);
+        const pointerElementStyles = window.getComputedStyle(this.pointerElement);
         const lineHeight = parseInt(targetElementStyles.lineHeight, 10) || 16;
         const paddingTop = parseFloat(targetElementStyles.paddingTop);
         const paddingBottom = parseFloat(targetElementStyles.paddingBottom);
@@ -65,6 +69,7 @@ export class ContentPointer implements Pointer {
 
         this.horizontalGridPosition.push(top + paddingTop);
         this.lineHeight = lineHeight;
+        this.pointerBackground = pointerElementStyles.backgroundColor;
 
         gsap.to(this.pointerElement, {
             width: this.lineHeight / 10,
@@ -74,5 +79,32 @@ export class ContentPointer implements Pointer {
         });
     }
 
-    public onReset(): void {}
+    changePointerOnDown = (): void => {
+        gsap.to(this.pointerElement, {
+            background: 'rgba(0,0,0,0.5)',
+            scale: 0.92,
+        });
+    }
+
+    resetPointer = (): void => {
+        gsap.to(this.pointerElement, {
+            background: this.pointerBackground,
+            scale: 1,
+        });
+    }
+
+    private initEventListener(): void {
+        this.targetElement.addEventListener('mousedown', this.changePointerOnDown);
+        this.targetElement.addEventListener('mouseup', this.resetPointer);
+    }
+
+    private removeEventListener(): void {
+        this.targetElement.removeEventListener('mousedown', this.changePointerOnDown);
+        this.targetElement.removeEventListener('mouseup', this.resetPointer);
+    }
+
+    public onReset(): void {
+        this.removeEventListener();
+        this.resetPointer();
+    }
 }
