@@ -1,9 +1,9 @@
 /* @Helpers */
-import { getPointer } from './helpers/pointersRegistry';
-import { createPointerElement } from './helpers/pointer';
+import { getPointer } from 'helpers/pointersRegistry';
+import { createPointerElement } from 'helpers/pointer';
 
 /* @Types */
-import { Pointer } from './pointers/Pointer';
+import { Pointer } from 'pointers/Pointer';
 
 export class MorphingPointer {
     private pointer: Pointer;

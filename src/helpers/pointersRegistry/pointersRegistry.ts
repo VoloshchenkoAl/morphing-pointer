@@ -1,11 +1,11 @@
 /* Default Pointer Models */
-import { DefaultPointer } from '../../pointers/Default';
-import { ContentPointer } from '../../pointers/Content';
-import { HighlightPointer } from '../../pointers/Highlight';
-import { LiftPointer } from '../../pointers/Lift';
+import { DefaultPointer } from 'pointers/Default';
+import { ContentPointer } from 'pointers/Content';
+import { HighlightPointer } from 'pointers/Highlight';
+import { LiftPointer } from 'pointers/Lift';
 
 /* @Types */
-import { PointerClass } from '../../pointers/Pointer';
+import { PointerClass } from 'pointers/Pointer';
 
 const pointerModelRegistry = new Map();
 
