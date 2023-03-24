@@ -70,6 +70,8 @@ export class HighlightPointer implements Pointer {
         const radius: number = parseFloat(
             window.getComputedStyle(this.targetElement).borderRadius
         );
+
+        // чи може zIndex бути Float ?
         const zIndex: number = parseFloat(
             window.getComputedStyle(this.targetElement).zIndex
         );

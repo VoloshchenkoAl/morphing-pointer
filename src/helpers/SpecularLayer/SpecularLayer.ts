@@ -25,6 +25,10 @@ export class SpecularLayer {
     }
 
     destroy(): void {
+        // спочатку подумав, із-за того що метод destroy то варто не тільки видаляти з дому ноду
+        //  але і тут сам this.specularLayer тому, що дестрой наче як на це проситься із назви і щоб не займати памʼять
+        //  але потім зрозумів, що update використовує цю лінку далі, щоб не ініціалізувати нову ноду - тому імхо, тут треба якась інша назва
+        // щось типу remove/reset + Node
         this.specularLayer.parentElement.removeChild(this.specularLayer);
     }
 
